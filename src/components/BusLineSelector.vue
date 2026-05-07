@@ -21,9 +21,7 @@
         <p v-if="selectedLine !== null" class="text-lg font-bold text-black py-4 px-6">Bus Line: {{ selectedLine }}</p>
         <div v-if="selectedLine !== null" class="flex items-center gap-2 py-4 px-6">
           <p class="text-base font-medium text-black">Bus Stops</p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-600 border border-slate-300 rounded-md p-0.5">
-            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
-          </svg>
+          <IconArrowDown class="text-slate-600 border border-slate-300 rounded-md p-0.5" />
         </div>
 
         <hr v-if="selectedLine !== null" class="-mx-6 border-t-2 border-slate-200"/>
@@ -75,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import IconArrowDown from '@/components/icons/IconArrowDown.vue';
 import { getStops } from '@/services/api';
 import { Stop } from '@/types';
 import { getTimesForLineAndStop, getUniqueLines, getUniqueStopsForLine } from '@/utils/stop-utils'

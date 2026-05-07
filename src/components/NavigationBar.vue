@@ -7,7 +7,7 @@
     <div
       @click="emit('update:modelValue', 'lines')"
       class="font-medium border-b-2 p-5 ml-6 cursor-pointer transition-colors duration-200"
-      :class="modelValue === 'lines' ? 'border-blue-600 text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-900'"
+      :class="tabClass('lines')"
     >
       Bus Lines
     </div>
@@ -15,7 +15,7 @@
     <div
       @click="emit('update:modelValue', 'stops')"
       class="font-medium border-b-2 p-5 cursor-pointer transition-colors duration-200"
-      :class="modelValue === 'stops' ? 'border-blue-600 text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-900'"
+      :class="tabClass('stops')"
     >
       Stops
     </div>
@@ -23,9 +23,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   modelValue: 'lines' | 'stops'
 }>()
+
+function tabClass(tab: 'lines' | 'stops') {
+  return props.modelValue === tab
+    ? 'border-blue-600 text-slate-900'
+    : 'border-transparent text-slate-500 hover:text-slate-900'
+}
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: 'lines' | 'stops'): void

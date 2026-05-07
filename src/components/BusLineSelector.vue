@@ -18,66 +18,76 @@
 
   <div class="flex flex-col md:flex-row gap-4 md:flex-1 md:overflow-hidden">
     <section class="bg-white mt-4 flex flex-col md:flex-1 md:overflow-hidden">
-        <p v-if="selectedLine !== null" class="text-lg font-bold text-black py-4 px-6">Bus Line: {{ selectedLine }}</p>
-        <div v-if="selectedLine !== null" class="flex items-center gap-2 py-4 px-6">
-          <p class="text-base font-medium text-black">Bus Stops</p>
-          <IconArrowDown class="text-slate-600 border border-slate-300 rounded-md p-0.5" />
-        </div>
+      <p
+        v-if="selectedLine !== null"
+        class="text-lg font-bold text-black py-4 px-6"
+      >
+        Bus Line: {{ selectedLine }}
+      </p>
+      <div v-if="selectedLine !== null" class="flex items-center gap-2 py-4 px-6">
+        <p class="text-base font-medium text-black">Bus Stops</p>
+        <IconArrowDown class="text-slate-600 border border-slate-300 rounded-md p-0.5" />
+      </div>
 
-        <hr v-if="selectedLine !== null" class="-mx-6 border-t-2 border-slate-200"/>
+      <hr v-if="selectedLine !== null" class="-mx-6 border-t-2 border-slate-200"/>
 
-        <div
-          class="md:flex-1 overflow-y-auto"
-          :class="selectedLine === null ? 'dashed-border' : ''"
-        >
-          <template v-if="selectedLine !== null">
-            <div
-              v-for="stop in stopsForLine"
-              :key="stop.stop + stop.order"
-              @click="selectedStop = stop.stop"
-              class="px-6 py-4 text-sm cursor-pointer border-b border-slate-200"
-              :class="selectedStop === stop.stop
-                ? 'bg-blue-50 font-semibold text-blue-700'
-                : 'hover:bg-slate-50'"
-            >
-              {{ stop.stop }} {{ String(stop.order).padStart(2, '0') }}
-            </div>
-          </template>
-          <div v-else class="flex items-center justify-center h-full text-slate-400 text-sm">
-            Please select the bus line first
+      <div
+        class="md:flex-1 overflow-y-auto"
+        :class="selectedLine === null ? 'dashed-border' : ''"
+      >
+        <template v-if="selectedLine !== null">
+          <div
+            v-for="stop in stopsForLine"
+            :key="stop.stop + stop.order"
+            @click="selectedStop = stop.stop"
+            class="px-6 py-4 text-sm cursor-pointer border-b border-slate-200"
+            :class="selectedStop === stop.stop
+              ? 'bg-blue-50 font-semibold text-blue-700'
+              : 'hover:bg-slate-50'"
+          >
+            {{ stop.stop }} {{ String(stop.order).padStart(2, '0') }}
           </div>
+        </template>
+        <div v-else class="flex items-center justify-center h-full text-slate-400 text-sm">
+          Please select the bus line first
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="bg-white mt-4 flex flex-col md:flex-1 md:overflow-hidden">
-        <p v-if="selectedStop !== null" class="text-lg font-bold text-black py-4 px-6">Bus Stop: {{ selectedStop }}</p>
-        <p v-if="selectedStop !== null" class="text-base font-medium text-black py-4 px-6">Time</p>
+    <section class="bg-white mt-4 flex flex-col md:flex-1 md:overflow-hidden">
+      <p
+        v-if="selectedStop !== null"
+        class="text-lg font-bold text-black py-4 px-6"
+      >
+        Bus Stop: {{ selectedStop }}
+      </p>
+      <p v-if="selectedStop !== null" class="text-base font-medium text-black py-4 px-6">Time</p>
 
-        <hr v-if="selectedStop !== null" class="-mx-6 border-t-2 border-slate-200"/>
-        
-        <div 
-          class="md:flex-1 overflow-y-auto"
-          :class="selectedStop === null ? 'dashed-border' : ''"  
-        >
-          <template v-if="selectedStop !== null">
-            <div v-for="time in times" :key="time" class="px-6 py-4 text-sm border-b border-slate-200">
-              {{ time }}
-            </div>
-          </template>
-          <div v-else class="flex items-center justify-center h-full text-slate-400 text-sm">
-            Please select the bus stop first
+      <hr v-if="selectedStop !== null" class="-mx-6 border-t-2 border-slate-200"/>
+
+      <div
+        class="md:flex-1 overflow-y-auto"
+        :class="selectedStop === null ? 'dashed-border' : ''"
+      >
+        <template v-if="selectedStop !== null">
+          <div v-for="time in times" :key="time" class="px-6 py-4 text-sm border-b border-slate-200">
+            {{ time }}
           </div>
+        </template>
+        <div v-else class="flex items-center justify-center h-full text-slate-400 text-sm">
+          Please select the bus stop first
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import IconArrowDown from '@/components/icons/IconArrowDown.vue';
-import { getStops } from '@/services/api';
-import { Stop } from '@/types';
+import IconArrowDown from '@/components/icons/IconArrowDown.vue'
+import { getStops } from '@/services/api'
+import { Stop } from '@/types'
 import { getTimesForLineAndStop, getUniqueLines, getUniqueStopsForLine } from '@/utils/stop-utils'
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue'
 
 const stops = ref<Stop[]>([])
 const selectedLine = ref<number | null>(null)
@@ -92,13 +102,13 @@ onMounted(async () => {
 const stopsForLine = computed(() =>
   selectedLine.value !== null
     ? getUniqueStopsForLine(stops.value, selectedLine.value)
-    : []
+    : [],
 )
 
 const times = computed(() =>
   selectedLine.value !== null && selectedStop.value !== null
     ? getTimesForLineAndStop(stops.value, selectedLine.value, selectedStop.value)
-    : []
+    : [],
 )
 
 function selectLine(line: number) {

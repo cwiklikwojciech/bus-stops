@@ -26,11 +26,11 @@
       <div
         v-for="stop in filteredStops"
         :key="stop.stop + stop.order"
-        class="px-6 py-4 text-sm border-b last:border-b-0"
+        class="px-6 py-4 text-sm border-b border-slate-200 last:border-b-0"
       >
         {{ stop.stop }} {{ String(stop.order).padStart(2, '0') }}
       </div>
-    </div>
+    </div> 
 
   </section>
 

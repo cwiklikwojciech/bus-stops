@@ -37,7 +37,7 @@
               v-for="stop in stopsForLine"
               :key="stop.stop + stop.order"
               @click="selectedStop = stop.stop"
-              class="px-6 py-4 text-sm cursor-pointer border-b"
+              class="px-6 py-4 text-sm cursor-pointer border-b border-slate-200"
               :class="selectedStop === stop.stop
                 ? 'bg-blue-50 font-semibold text-blue-700'
                 : 'hover:bg-slate-50'"
@@ -62,7 +62,7 @@
           :class="selectedStop === null ? 'dashed-border' : ''"  
         >
           <template v-if="selectedStop !== null">
-            <div v-for="time in times" :key="time" class="px-6 py-4 text-sm border-b">
+            <div v-for="time in times" :key="time" class="px-6 py-4 text-sm border-b border-slate-200">
               {{ time }}
             </div>
           </template>

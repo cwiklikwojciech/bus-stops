@@ -34,19 +34,19 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { getStops } from '@/services/api'
-import { getAllStopsWithOrder, filterStopsWithOrder } from '@/utils/stop-utils'
-import type { Stop } from '@/types'
+import { storeToRefs } from 'pinia'
+import { filterStopsWithOrder } from '@/utils/stop-utils'
+import { useStopsStore } from '@/store'
 import IconSearch from '@/components/icons/IconSearch.vue'
 import IconArrowDown from '@/components/icons/IconArrowDown.vue'
 
-const stops = ref<Stop[]>([])
+const store = useStopsStore()
+const { allStops } = storeToRefs(store)
+const { fetchStops } = store
+
 const search = ref('')
 
-onMounted(async () => {
-  stops.value = await getStops()
-})
+onMounted(fetchStops)
 
-const allStops = computed(() => getAllStopsWithOrder(stops.value))
 const filteredStops = computed(() => filterStopsWithOrder(allStops.value, search.value))
 </script>

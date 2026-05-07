@@ -84,37 +84,15 @@
 
 <script setup lang="ts">
 import IconArrowDown from '@/components/icons/IconArrowDown.vue'
-import { getStops } from '@/services/api'
-import { Stop } from '@/types'
-import { getTimesForLineAndStop, getUniqueLines, getUniqueStopsForLine } from '@/utils/stop-utils'
-import { computed, onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useStopsStore } from '@/store'
+import { onMounted } from 'vue'
 
-const stops = ref<Stop[]>([])
-const selectedLine = ref<number | null>(null)
-const selectedStop = ref<string | null>(null)
+const store = useStopsStore()
+const { lines, stopsForLine, times, selectedLine, selectedStop } = storeToRefs(store)
+const { fetchStops, selectLine } = store
 
-const lines = computed(() => getUniqueLines(stops.value))
-
-onMounted(async () => {
-  stops.value = await getStops()
-})
-
-const stopsForLine = computed(() =>
-  selectedLine.value !== null
-    ? getUniqueStopsForLine(stops.value, selectedLine.value)
-    : [],
-)
-
-const times = computed(() =>
-  selectedLine.value !== null && selectedStop.value !== null
-    ? getTimesForLineAndStop(stops.value, selectedLine.value, selectedStop.value)
-    : [],
-)
-
-function selectLine(line: number) {
-  selectedLine.value = line
-  selectedStop.value = null
-}
+onMounted(fetchStops)
 </script>
 
 <style scoped>

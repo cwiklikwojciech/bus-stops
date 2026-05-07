@@ -4,3 +4,8 @@ export interface Stop {
   order: number
   time: string
 }
+
+export interface StopEntry {
+  stop: string
+  order: number
+}

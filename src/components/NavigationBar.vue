@@ -2,7 +2,7 @@
   <div class="mb-6">
     <h1 class="text-3xl font-semibold text-slate-900">Timetable</h1>
   </div>
-  
+
   <div class="flex gap-6 bg-white">
     <div
       @click="emit('update:modelValue', 'lines')"
@@ -11,7 +11,7 @@
     >
       Bus Lines
     </div>
-    
+
     <div
       @click="emit('update:modelValue', 'stops')"
       class="font-medium border-b-2 p-5 cursor-pointer transition-colors duration-200"

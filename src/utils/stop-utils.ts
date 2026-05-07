@@ -1,18 +1,18 @@
 import { Stop } from '@/types'
 
 export function getUniqueLines(stops: Stop[]): number[] {
-  return Array.from(new Set(stops.map((stop) => stop.line))).sort((a, b) => a - b)
+  return Array.from(new Set(stops.map(stop => stop.line))).sort((a, b) => a - b)
 }
 
 export function getUniqueStopsForLine(
   stops: Stop[],
   line: number,
   ascending = true,
-): Array<{ stop: string; order: number }> {
+): Array<{ stop: string, order: number }> {
   const stopMap = new Map<string, number>()
 
   stops
-    .filter((entry) => entry.line === line)
+    .filter(entry => entry.line === line)
     .forEach((entry) => {
       const existingOrder = stopMap.get(entry.stop)
       if (existingOrder === undefined || entry.order < existingOrder) {
@@ -27,17 +27,17 @@ export function getUniqueStopsForLine(
 
 export function getTimesForLineAndStop(stops: Stop[], line: number, stopName: string): string[] {
   return stops
-    .filter((entry) => entry.line === line && entry.stop === stopName)
-    .map((entry) => entry.time)
+    .filter(entry => entry.line === line && entry.stop === stopName)
+    .map(entry => entry.time)
     .sort((a, b) => a.localeCompare(b))
 }
 
 export function getAllStopsWithOrder(
   stops: Stop[],
   ascending = true,
-): Array<{ stop: string; order: number }> {
+): Array<{ stop: string, order: number }> {
   const seen = new Set<string>()
-  const result: Array<{ stop: string; order: number }> = []
+  const result: Array<{ stop: string, order: number }> = []
   for (const s of stops) {
     const key = `${s.stop}\x00${s.order}`
     if (!seen.has(key)) {
@@ -52,9 +52,9 @@ export function getAllStopsWithOrder(
 }
 
 export function filterStopsWithOrder(
-  stops: Array<{ stop: string; order: number }>,
+  stops: Array<{ stop: string, order: number }>,
   searchTerm: string,
-): Array<{ stop: string; order: number }> {
+): Array<{ stop: string, order: number }> {
   const term = searchTerm.trim().toLowerCase()
-  return term ? stops.filter((s) => s.stop.toLowerCase().includes(term)) : stops
+  return term ? stops.filter(s => s.stop.toLowerCase().includes(term)) : stops
 }

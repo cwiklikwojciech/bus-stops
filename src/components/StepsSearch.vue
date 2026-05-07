@@ -26,7 +26,7 @@
       >
         {{ stop.stop }} {{ String(stop.order).padStart(2, '0') }}
       </div>
-    </div> 
+    </div>
 
   </section>
 

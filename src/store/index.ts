@@ -35,9 +35,11 @@ export const useStopsStore = defineStore('stops', () => {
     error.value = null
     try {
       stops.value = await getStops()
-    } catch (e) {
+    }
+    catch (e) {
       error.value = e instanceof Error ? e.message : 'Failed to load stops'
-    } finally {
+    }
+    finally {
       isLoading.value = false
     }
   }

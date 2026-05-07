@@ -13,6 +13,8 @@ export const useStopsStore = defineStore('stops', () => {
   const stops = ref<Stop[]>([])
   const selectedLine = ref<number | null>(null)
   const selectedStop = ref<string | null>(null)
+  const isLoading = ref(false)
+  const error = ref<string | null>(null)
 
   const lines = computed(() => getUniqueLines(stops.value))
   const stopsForLine = computed(() =>
@@ -29,7 +31,15 @@ export const useStopsStore = defineStore('stops', () => {
 
   async function fetchStops() {
     if (stops.value.length > 0) return
-    stops.value = await getStops()
+    isLoading.value = true
+    error.value = null
+    try {
+      stops.value = await getStops()
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : 'Failed to load stops'
+    } finally {
+      isLoading.value = false
+    }
   }
 
   function selectLine(line: number | null) {
@@ -45,6 +55,8 @@ export const useStopsStore = defineStore('stops', () => {
     stops,
     selectedLine,
     selectedStop,
+    isLoading,
+    error,
     lines,
     stopsForLine,
     times,

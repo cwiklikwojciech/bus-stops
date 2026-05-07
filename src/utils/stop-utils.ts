@@ -38,6 +38,10 @@ export function getAllStopsWithOrder(stops: Stop[]): StopEntry[] {
   })
 }
 
+export function formatStopEntry(entry: StopEntry): string {
+  return `${entry.stop} ${String(entry.order).padStart(2, '0')}`
+}
+
 export function filterStopsWithOrder(stops: StopEntry[], searchTerm: string): StopEntry[] {
   const term = searchTerm.trim().toLowerCase()
   return term ? stops.filter(s => s.stop.toLowerCase().includes(term)) : stops

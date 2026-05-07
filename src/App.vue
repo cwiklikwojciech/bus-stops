@@ -13,8 +13,9 @@ import { ref } from 'vue'
 import NavigationBar from './components/NavigationBar.vue'
 import BusLineSelector from './components/BusLineSelector.vue'
 import StepsSearch from './components/StepsSearch.vue'
+import type { Tab } from '@/types'
 
-const linesOrStops = ref<'lines' | 'stops'>('lines')
+const linesOrStops = ref<Tab>('lines')
 
 const tabs = {
   lines: BusLineSelector,

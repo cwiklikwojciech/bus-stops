@@ -18,13 +18,15 @@
 
     <hr class="-mx-2 border-t-2 border-slate-200"/>
 
-    <div class="rounded">
+    <div v-if="isLoading" class="px-6 py-4 text-sm text-slate-400">Loading...</div>
+    <div v-else-if="error" class="px-6 py-4 text-sm text-red-500">{{ error }}</div>
+    <div v-else class="rounded">
       <div
         v-for="stop in filteredStops"
         :key="stop.stop + stop.order"
         class="px-6 py-4 text-sm border-b border-slate-200 last:border-b-0"
       >
-        {{ stop.stop }} {{ String(stop.order).padStart(2, '0') }}
+        {{ formatStopEntry(stop) }}
       </div>
     </div>
 
@@ -35,13 +37,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { filterStopsWithOrder } from '@/utils/stop-utils'
+import { filterStopsWithOrder, formatStopEntry } from '@/utils/stop-utils'
 import { useStopsStore } from '@/store'
 import IconSearch from '@/components/icons/IconSearch.vue'
 import IconArrowDown from '@/components/icons/IconArrowDown.vue'
 
 const store = useStopsStore()
-const { allStops } = storeToRefs(store)
+const { allStops, isLoading, error } = storeToRefs(store)
 const { fetchStops } = store
 
 const search = ref('')
